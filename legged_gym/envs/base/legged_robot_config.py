@@ -41,7 +41,8 @@ class LeggedRobotCfg(BaseConfig):
         episode_length_s = 20 # episode length in seconds
 
     class terrain:
-        mesh_type = 'trimesh' # "heightfield" # none, plane, heightfield or trimesh
+        # mesh_type = 'trimesh' # "heightfield" # none, plane, heightfield or trimesh
+        mesh_type = 'plane'  # "heightfield" # none, plane, heightfield or trimesh
         horizontal_scale = 0.1 # [m]
         vertical_scale = 0.005 # [m]
         border_size = 25 # [m]
@@ -129,29 +130,29 @@ class LeggedRobotCfg(BaseConfig):
 
     class rewards:
         class scales:
-            termination = -0.0
+            termination = -0.0 #终止状态惩罚
             tracking_lin_vel = 1.0
             tracking_ang_vel = 0.5
             lin_vel_z = -2.0
-            ang_vel_xy = -0.05
-            orientation = -0.
+            ang_vel_xy = -0.05 #xy平面角速度惩罚
+            orientation = -0. #姿态稳定性惩罚
             torques = -0.00001
-            dof_vel = -0.
+            dof_vel = -0. #关节速度惩罚
             dof_acc = -2.5e-7
-            base_height = -0. 
-            feet_air_time =  1.0
+            base_height = -0. #底座高度惩罚
+            feet_air_time = 1.0
             collision = -1.
-            feet_stumble = -0.0 
+            feet_stumble = -0.0 #脚步绊倒惩罚
             action_rate = -0.01
-            stand_still = -0.
+            stand_still = -0. #静止惩罚
 
-        only_positive_rewards = True # if true negative total rewards are clipped at zero (avoids early termination problems)
-        tracking_sigma = 0.25 # tracking reward = exp(-error^2/sigma)
-        soft_dof_pos_limit = 1. # percentage of urdf limits, values above this limit are penalized
+        only_positive_rewards = True  # if true negative total rewards are clipped at zero (avoids early termination problems)
+        tracking_sigma = 0.25  # tracking reward = exp(-error^2/sigma)
+        soft_dof_pos_limit = 1.  # percentage of urdf limits, values above this limit are penalized
         soft_dof_vel_limit = 1.
         soft_torque_limit = 1.
         base_height_target = 1.
-        max_contact_force = 100. # forces above this value are penalized
+        max_contact_force = 100.  # forces above this value are penalized
 
     class normalization:
         class obs_scales:

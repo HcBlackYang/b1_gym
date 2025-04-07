@@ -1,0 +1,1 @@
+{"iteration": 4, "mean_reward": 0.0005568479707669383, "policy_loss": 0, "value_loss": 0, "fps": 0, "collection_time": 0, "learning_time": 0, "_timestamp": 1738753959, "_runtime": 16, "_step": 4, "_wandb": {"runtime": 18}}

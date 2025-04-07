@@ -1,0 +1,37 @@
+wandb_version: 1
+
+_wandb:
+  desc: null
+  value:
+    cli_version: 0.12.21
+    framework: torch
+    is_jupyter_run: false
+    is_kaggle_kernel: false
+    python_version: 3.8.20
+    start_time: 1738750268
+    t:
+      1:
+      - 1
+      - 55
+      2:
+      - 1
+      - 55
+      3:
+      - 1
+      - 16
+      4: 3.8.20
+      5: 0.12.21
+      8:
+      - 5
+algorithm:
+  desc: null
+  value: <legged_gym.envs.base.legged_robot_config.LeggedRobotCfgPPO.algorithm object
+    at 0x7ff52a027580>
+policy:
+  desc: null
+  value: <legged_gym.envs.base.legged_robot_config.LeggedRobotCfgPPO.policy object
+    at 0x7ff52a0275e0>
+runner:
+  desc: null
+  value: <legged_gym.envs.anymal_c.mixed_terrains.anymal_c_rough_config.AnymalCRoughCfgPPO.runner
+    object at 0x7ff52a027640>

@@ -113,6 +113,22 @@ def play(args):
         elif i==stop_rew_log:
             logger.print_rewards()
 
+        # print("Commands X:", env.commands[:, 0])
+        # print("Commands Y:", env.commands[:, 1])
+        # print("Commands Yaw:", env.commands[:, 2])
+        # print("Simulation dt:", env.dt)
+
+
+        # start_pos = env.root_states[:, 0].clone()  # 记录起始位置
+        # for i in range(10):  # 运行 10 步
+        #     actions = policy(obs.detach())
+        #     obs, _, rews, dones, infos = env.step(actions.detach())
+        #
+        # end_pos = env.root_states[:, 0]  # 记录终止位置
+        # actual_speed = (end_pos - start_pos) / (10 * env.dt)
+        # print("Actual Speed in play.py:", actual_speed)
+
+
 if __name__ == '__main__':
     EXPORT_POLICY = True
     RECORD_FRAMES = False
