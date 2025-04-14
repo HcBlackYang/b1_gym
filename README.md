@@ -1,6 +1,6 @@
-# 🦿 LEG_GYM: Reinforcement Learning for Legged Robots with Isaac Gym
+# 🦿 b1_gym: Reinforcement Learning for Legged Robots with Isaac Gym
 
-`LEG_GYM` is a reinforcement learning framework adapted from [legged_gym](https://github.com/leggedrobotics/legged_gym), designed for bipedal locomotion and extended with custom environments, curriculum strategies, and logging tools. It integrates NVIDIA Isaac Gym and RSL-RL.
+`b1_gym` is a reinforcement learning framework adapted from [legged_gym](https://github.com/leggedrobotics/legged_gym), designed for bipedal locomotion and extended with custom environments, curriculum strategies, and logging tools. It integrates NVIDIA Isaac Gym and RSL-RL.
 
 
 
