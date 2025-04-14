@@ -1,0 +1,32 @@
+name: b1_gym_env
+channels:
+  - defaults
+  - conda-forge
+  - pytorch
+dependencies:
+  - python=3.8
+  - numpy=1.19.0
+  - scipy
+  - matplotlib
+  - gym=0.26.2
+  - pillow
+  - tqdm
+  - jinja2
+  - networkx
+  - pip
+  - cudatoolkit=11.8  
+  - pip:
+      - torch==2.4.1+cu118
+      - torchvision==0.19.1+cu118
+      - torchaudio==2.4.1+cu118
+      - termcolor
+      - tensorboard
+      - wandb
+      - google-auth
+      - google-auth-oauthlib
+      - protobuf
+      - requests-oauthlib
+      - absl-py
+      - imageio
+      - lark-parser
+
