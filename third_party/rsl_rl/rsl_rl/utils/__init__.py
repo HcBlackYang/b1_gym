@@ -28,14 +28,4 @@
 #
 # Copyright (c) 2021 ETH Zurich, Nikita Rudin
 
-from legged_gym import LEGGED_GYM_ROOT_DIR, LEGGED_GYM_ENVS_DIR
-from .base.legged_robot import LeggedRobot
-
-from .b1.b1_config import B1RobotCfg, B1RobotCfgPPO
-from .b1.b1_env import B1Env
-
-import os
-
-from legged_gym.utils.task_registry import task_registry
-
-task_registry.register( "b1", B1Env, B1RobotCfg(), B1RobotCfgPPO() )
+from .utils import split_and_pad_trajectories, unpad_trajectories

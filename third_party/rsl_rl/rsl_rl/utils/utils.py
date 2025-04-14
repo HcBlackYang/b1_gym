@@ -28,14 +28,44 @@
 #
 # Copyright (c) 2021 ETH Zurich, Nikita Rudin
 
-from legged_gym import LEGGED_GYM_ROOT_DIR, LEGGED_GYM_ENVS_DIR
-from .base.legged_robot import LeggedRobot
+import torch
 
-from .b1.b1_config import B1RobotCfg, B1RobotCfgPPO
-from .b1.b1_env import B1Env
+def split_and_pad_trajectories(tensor, dones):
+    """ 
+    Splits trajectories at done indices, then pads them with zeros up to the length of the longest trajectory.
+    Returns masks corresponding to valid parts of the trajectories.
+    
+    Assumes input shape: [time, num_envs, feature_dim]
+    """
+    dones = dones.clone()
+    dones[-1] = 1  # Force termination at the last step to avoid incomplete trajectories
+    
+    # Transpose to have shape (num_envs, time, feature_dim)
+    tensor = tensor.transpose(1, 0)
+    dones = dones.transpose(1, 0)
+    
+    # Flatten across environments
+    flat_dones = dones.reshape(-1)
+    
+    # Get indices where episodes terminate
+    done_indices = torch.cat((torch.tensor([-1], device=tensor.device), flat_dones.nonzero().squeeze()))
+    trajectory_lengths = done_indices[1:] - done_indices[:-1]
+    
+    # Extract trajectories
+    trajectories = torch.split(tensor.reshape(-1, tensor.shape[-1]), trajectory_lengths.tolist())
+    
+    # Pad sequences
+    padded_trajectories = torch.nn.utils.rnn.pad_sequence(trajectories, batch_first=True)
+    
+    # Create mask
+    max_len = padded_trajectories.shape[1]
+    trajectory_masks = torch.arange(max_len, device=tensor.device).unsqueeze(0) < trajectory_lengths.unsqueeze(1)
+    
+    return padded_trajectories, trajectory_masks
 
-import os
-
-from legged_gym.utils.task_registry import task_registry
-
-task_registry.register( "b1", B1Env, B1RobotCfg(), B1RobotCfgPPO() )
+def unpad_trajectories(padded_trajectories, masks):
+    """
+    Reconstructs the original unpadded trajectories from padded representations.
+    """
+    unpadded = padded_trajectories[masks]
+    return unpadded.view(-1, padded_trajectories.shape[-1])

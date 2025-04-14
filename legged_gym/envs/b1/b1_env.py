@@ -90,10 +90,10 @@ class B1Env(LeggedRobot):
         # 重置已接触地面的足部空中时间
         self.feet_air_time *= ~contact_filt
 
-        print("rew_airtime:",rew_airTime)
-        print("feet_air_time:",self.feet_air_time)
-        print("base_reward:",base_reward)
-        print("penalty:",penalty)
+        # print("rew_airtime:",rew_airTime)
+        # print("feet_air_time:",self.feet_air_time)
+        # print("base_reward:",base_reward)
+        # print("penalty:",penalty)
         # print("balance_reward:",balance_reward)
 
         return rew_airTime
