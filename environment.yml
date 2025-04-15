@@ -8,7 +8,6 @@ dependencies:
   - numpy=1.19.0
   - scipy
   - matplotlib
-  - gym=0.26.2
   - pillow
   - tqdm
   - jinja2
@@ -21,12 +20,9 @@ dependencies:
       - torchaudio==2.4.1+cu118
       - termcolor
       - tensorboard
-      - wandb
-      - google-auth
-      - google-auth-oauthlib
       - protobuf
-      - requests-oauthlib
       - absl-py
       - imageio
       - lark-parser
+      - gym=0.26.2
 

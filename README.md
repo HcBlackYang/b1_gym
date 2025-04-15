@@ -1,27 +1,27 @@
-# 🦿 b1_gym: Reinforcement Learning for Legged Robots with Isaac Gym
+# b1_gym: Reinforcement Learning for Legged Robots with Isaac Gym
 
 `b1_gym` is a reinforcement learning framework adapted from [legged_gym](https://github.com/leggedrobotics/legged_gym), designed for bipedal locomotion and extended with custom environments, curriculum strategies, and logging tools. It integrates NVIDIA Isaac Gym and RSL-RL.
 
 
 
-## 📦 Features
+## Features
 
-- ✅ Isaac Gym + RSL-RL integration  
-- 🦿 Biped locomotion in rough terrain  
-- 📚 Modular curriculum and reward configuration  
-- 🧠 Support for language-conditioned commands  
-- 📈 WandB integration for experiment tracking  
+-  Isaac Gym + RSL-RL integration  
+-  Biped locomotion in rough terrain  
+-  Modular curriculum and reward configuration  
+-  Support for language-conditioned commands  
+-  WandB integration for experiment tracking  
 
 
-## 🗂️ Project Structure
+## Project Structure
 
 ```
 b1_gym/
 ├── legged_gym/                ← Main environment and training code
 ├── third_party/
 │   └── rsl_rl/                ← Embedded RL framework (fork or submodule)
-├── resources/                 ← URDFs, heightfields, config files
-├── logs/                      ← Tensorboard or WandB logs
+├── resources/                 ← URDFs
+├── logs/                      ← Tensorboard
 ├── environment.yml           ← Conda environment file
 ├── setup.py                  ← Setup script (editable install)
 ├── LICENSE
@@ -30,7 +30,7 @@ b1_gym/
 
 
 
-## 🚀 Installation
+## Installation
 
 ### 1. Clone this repo
 
@@ -53,21 +53,27 @@ pip install -e .
 pip install -e ./third_party/rsl_rl
 ```
 
+### 4. Install pytorch (with CUDA 11.8 support)
+
+To install PyTorch 2.4.1 and compatible versions of torchvision and torchaudio with CUDA 11.8, run:
+
+```bash
+pip install torch==2.4.1+cu118 torchvision==0.19.1+cu118 torchaudio==2.4.1+cu118 --index-url https://download.pytorch.org/whl/cu118
+```
 
 
-
-### 4 Install Isaac Gym
+### 5 Install Isaac Gym
 
 Isaac Gym is **not included in this repository**. You must manually download and install it from NVIDIA:
 
-#### 📥 1. Download Isaac Gym Preview 4
+#### 1. Download Isaac Gym Preview 4
 
 - Go to: [https://developer.nvidia.com/isaac-gym](https://developer.nvidia.com/isaac-gym)
 - You’ll need to create an NVIDIA Developer account to access the download.
 
-> ⚠️ Isaac Gym is only supported on Linux + NVIDIA GPU + CUDA 11.x
+> Isaac Gym is only supported on Linux + NVIDIA GPU + CUDA 11.x
 
-#### 🧩 2. Install Isaac Gym Python bindings
+#### 2. Install Isaac Gym Python bindings
 
 ```bash
 cd isaacgym/python
@@ -76,7 +82,7 @@ pip install -e .
 
 Make sure this directory is added to your `PYTHONPATH` or installed in editable mode.
 
-#### 🧪 3. Test the installation (optional)
+#### 3. Test the installation (optional)
 
 ```bash
 cd isaacgym/examples
@@ -85,7 +91,7 @@ python 1080_balls_of_solitude.py
 
 This test should open a viewer with bouncing balls. If it crashes, check your GPU and driver setup.
 
-#### ❓ 4. Troubleshooting
+#### 4. Troubleshooting
 
 - Refer to: `isaacgym/docs/index.html`
 - Or check the NVIDIA developer forums for platform-specific issues
@@ -93,32 +99,32 @@ This test should open a viewer with bouncing balls. If it crashes, check your GP
 
 
 
-## 🧪 Training Example
+##  Training Example
 
 ```bash
-python legged_gym/scripts/train.py task=rough_b1
+python legged_gym/scripts/train.py task=b1
 ```
 
 You can configure the task in `legged_gym/cfg/train/rough_b1.yaml`.
 
 
 
-## 🎮 Evaluation
+##  Evaluation
 
 ```bash
-python legged_gym/scripts/play.py task=rough_b1
+python legged_gym/scripts/play.py task=b1
 ```
 
 
 
 
-## 📝 Acknowledgements
+##  Acknowledgements
 
 - This project is based on [legged_gym](https://github.com/leggedrobotics/legged_gym)
 - Reinforcement learning core from [rsl_rl](https://github.com/leggedrobotics/rsl_rl)
 
 
 
-## 📜 License
+##  License
 
 This project is licensed under the **BSD 3-Clause License**. See [LICENSE](./LICENSE) for details.
