@@ -2,6 +2,13 @@
 
 `b1_gym` is a reinforcement learning framework adapted from [legged_gym](https://github.com/leggedrobotics/legged_gym), designed for bipedal locomotion and extended with custom environments, curriculum strategies, and logging tools. It integrates NVIDIA Isaac Gym and RSL-RL.
 
+## Environment Requirements
+
+- **Operating System**: Ubuntu 20.04
+- **Python Version**: 3.8
+- **CUDA Version**: 11.8
+- **PyTorch Version**: 2.4.1 + cu118
+- **Other Dependencies**: See `environment.yml` 
 
 
 ## Features
