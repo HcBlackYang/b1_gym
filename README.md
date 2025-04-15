@@ -109,7 +109,7 @@ This test should open a viewer with bouncing balls. If it crashes, check your GP
 ##  Training Example
 
 ```bash
-python legged_gym/scripts/train.py task=b1
+python legged_gym/scripts/train.py --task=b1
 ```
 
 You can configure the task in `legged_gym/cfg/train/rough_b1.yaml`.
@@ -119,7 +119,7 @@ You can configure the task in `legged_gym/cfg/train/rough_b1.yaml`.
 ##  Evaluation
 
 ```bash
-python legged_gym/scripts/play.py task=b1
+python legged_gym/scripts/play.py --task=b1
 ```
 
 
