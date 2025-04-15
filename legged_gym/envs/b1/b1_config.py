@@ -91,7 +91,7 @@ class B1RobotCfgPPO(LeggedRobotCfgPPO):
 
     class runner(LeggedRobotCfgPPO.runner):
         run_name = ''
-        experiment_name = 'rough_b1'
+        experiment_name = 'b1'
         load_run = -1
 
 

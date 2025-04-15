@@ -13,11 +13,11 @@
 
 ## Features
 
--  Isaac Gym + RSL-RL integration  
+-  Isaac Gym + rsl-rl integration  
 -  Biped locomotion in rough terrain  
 -  Modular curriculum and reward configuration  
 -  Support for language-conditioned commands  
--  WandB integration for experiment tracking  
+
 
 
 ## Project Structure
@@ -26,11 +26,11 @@
 b1_gym/
 ├── legged_gym/                ← Main environment and training code
 ├── third_party/
-│   └── rsl_rl/                ← Embedded RL framework (fork or submodule)
-├── resources/                 ← URDFs
+│   └── rsl_rl/                ← Embedded RL framework
+├── resources/                 ← URDF
 ├── logs/                      ← Tensorboard
 ├── environment.yml           ← Conda environment file
-├── setup.py                  ← Setup script (editable install)
+├── setup.py                  ← Setup script
 ├── LICENSE
 └── README.md
 ```
@@ -112,7 +112,6 @@ This test should open a viewer with bouncing balls. If it crashes, check your GP
 python legged_gym/scripts/train.py --task=b1
 ```
 
-You can configure the task in `legged_gym/cfg/train/rough_b1.yaml`.
 
 
 
