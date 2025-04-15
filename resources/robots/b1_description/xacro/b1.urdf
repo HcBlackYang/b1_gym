@@ -298,14 +298,14 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="/home/blake/legged_gym/resources/robots//b1_description/meshes/trunkb.dae" scale="1 1 1"/>
+        <mesh filename="resources/robots/b1_description/meshes/trunkb.dae" scale="1 1 1"/>
       </geometry>
       <material name="orange"/>
     </visual>
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="/home/blake/legged_gym/resources/robots//b1_description/meshes/trunkb.dae" scale="1 1 1"/>
+        <mesh filename="resources/robots/b1_description/meshes/trunkb.dae" scale="1 1 1"/>
       </geometry>
     </collision>
     <inertial>
@@ -419,14 +419,14 @@
     <visual>
       <origin rpy="3.141592653589793 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="/home/blake/legged_gym/resources/robots//b1_description/meshes/hipb.dae" scale="1 1 1"/>
+        <mesh filename="resources/robots/b1_description/meshes/hipb.dae" scale="1 1 1"/>
       </geometry>
       <material name="orange"/>
     </visual>
     <collision>
       <origin rpy="3.141592653589793 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="/home/blake/legged_gym/resources/robots//b1_description/meshes/hipb.dae" scale="1 1 1"/>
+        <mesh filename="resources/robots/b1_description/meshes/hipb.dae" scale="1 1 1"/>
       </geometry>
     </collision>
     <inertial>
@@ -472,14 +472,14 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="/home/blake/legged_gym/resources/robots//b1_description/meshes/thigh_mirrorb.dae" scale="1 1 1"/>
+        <mesh filename="resources/robots/b1_description/meshes/thigh_mirrorb.dae" scale="1 1 1"/>
       </geometry>
       <material name="orange"/>
     </visual>
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="/home/blake/legged_gym/resources/robots//b1_description/meshes/thigh_mirrorb.dae" scale="1 1 1"/>
+        <mesh filename="resources/robots/b1_description/meshes/thigh_mirrorb.dae" scale="1 1 1"/>
       </geometry>
     </collision>
     <inertial>
@@ -525,14 +525,14 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="/home/blake/legged_gym/resources/robots//b1_description/meshes/calfb.dae" scale="1 1 1"/>
+        <mesh filename="resources/robots/b1_description/meshes/calfb.dae" scale="1 1 1"/>
       </geometry>
       <material name="orange"/>
     </visual>
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="/home/blake/legged_gym/resources/robots//b1_description/meshes/calfb.dae" scale="1 1 1"/>
+        <mesh filename="resources/robots/b1_description/meshes/calfb.dae" scale="1 1 1"/>
       </geometry>
     </collision>
     <inertial>
@@ -632,14 +632,14 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="/home/blake/legged_gym/resources/robots//b1_description/meshes/hipb.dae" scale="1 1 1"/>
+        <mesh filename="resources/robots/b1_description/meshes/hipb.dae" scale="1 1 1"/>
       </geometry>
       <material name="orange"/>
     </visual>
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="/home/blake/legged_gym/resources/robots//b1_description/meshes/hipb.dae" scale="1 1 1"/>
+        <mesh filename="resources/robots/b1_description/meshes/hipb.dae" scale="1 1 1"/>
       </geometry>
     </collision>
     <inertial>
@@ -685,14 +685,14 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="/home/blake/legged_gym/resources/robots//b1_description/meshes/thighb.dae" scale="1 1 1"/>
+        <mesh filename="resources/robots/b1_description/meshes/thighb.dae" scale="1 1 1"/>
       </geometry>
       <material name="orange"/>
     </visual>
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="/home/blake/legged_gym/resources/robots//b1_description/meshes/thighb.dae" scale="1 1 1"/>
+        <mesh filename="resources/robots/b1_description/meshes/thighb.dae" scale="1 1 1"/>
       </geometry>
     </collision>
     <inertial>
@@ -738,14 +738,14 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="/home/blake/legged_gym/resources/robots//b1_description/meshes/calfb.dae" scale="1 1 1"/>
+        <mesh filename="resources/robots/b1_description/meshes/calfb.dae" scale="1 1 1"/>
       </geometry>
       <material name="orange"/>
     </visual>
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="/home/blake/legged_gym/resources/robots//b1_description/meshes/calfb.dae" scale="1 1 1"/>
+        <mesh filename="resources/robots/b1_description/meshes/calfb.dae" scale="1 1 1"/>
       </geometry>
     </collision>
     <inertial>
@@ -845,14 +845,14 @@
     <visual>
       <origin rpy="3.141592653589793 3.141592653589793 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="/home/blake/legged_gym/resources/robots//b1_description/meshes/hipb.dae" scale="1 1 1"/>
+        <mesh filename="resources/robots/b1_description/meshes/hipb.dae" scale="1 1 1"/>
       </geometry>
       <material name="orange"/>
     </visual>
     <collision>
       <origin rpy="3.141592653589793 3.141592653589793 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="/home/blake/legged_gym/resources/robots//b1_description/meshes/hipb.dae" scale="1 1 1"/>
+        <mesh filename="resources/robots/b1_description/meshes/hipb.dae" scale="1 1 1"/>
       </geometry>
     </collision>
     <inertial>
@@ -898,14 +898,14 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="/home/blake/legged_gym/resources/robots//b1_description/meshes/thigh_mirrorb.dae" scale="1 1 1"/>
+        <mesh filename="resources/robots/b1_description/meshes/thigh_mirrorb.dae" scale="1 1 1"/>
       </geometry>
       <material name="orange"/>
     </visual>
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="/home/blake/legged_gym/resources/robots//b1_description/meshes/thigh_mirrorb.dae" scale="1 1 1"/>
+        <mesh filename="resources/robots/b1_description/meshes/thigh_mirrorb.dae" scale="1 1 1"/>
       </geometry>
     </collision>
     <inertial>
@@ -951,14 +951,14 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="/home/blake/legged_gym/resources/robots//b1_description/meshes/calfb.dae" scale="1 1 1"/>
+        <mesh filename="resources/robots/b1_description/meshes/calfb.dae" scale="1 1 1"/>
       </geometry>
       <material name="orange"/>
     </visual>
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="/home/blake/legged_gym/resources/robots//b1_description/meshes/calfb.dae" scale="1 1 1"/>
+        <mesh filename="resources/robots/b1_description/meshes/calfb.dae" scale="1 1 1"/>
       </geometry>
     </collision>
     <inertial>
@@ -1058,14 +1058,14 @@
     <visual>
       <origin rpy="0 3.141592653589793 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="/home/blake/legged_gym/resources/robots//b1_description/meshes/hipb.dae" scale="1 1 1"/>
+        <mesh filename="resources/robots/b1_description/meshes/hipb.dae" scale="1 1 1"/>
       </geometry>
       <material name="orange"/>
     </visual>
     <collision>
       <origin rpy="0 3.141592653589793 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="/home/blake/legged_gym/resources/robots//b1_description/meshes/hipb.dae" scale="1 1 1"/>
+        <mesh filename="resources/robots/b1_description/meshes/hipb.dae" scale="1 1 1"/>
       </geometry>
     </collision>
     <inertial>
@@ -1111,14 +1111,14 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="/home/blake/legged_gym/resources/robots//b1_description/meshes/thighb.dae" scale="1 1 1"/>
+        <mesh filename="resources/robots/b1_description/meshes/thighb.dae" scale="1 1 1"/>
       </geometry>
       <material name="orange"/>
     </visual>
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="/home/blake/legged_gym/resources/robots//b1_description/meshes/thighb.dae" scale="1 1 1"/>
+        <mesh filename="resources/robots/b1_description/meshes/thighb.dae" scale="1 1 1"/>
       </geometry>
     </collision>
     <inertial>
@@ -1164,14 +1164,14 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="/home/blake/legged_gym/resources/robots//b1_description/meshes/calfb.dae" scale="1 1 1"/>
+        <mesh filename="resources/robots/b1_description/meshes/calfb.dae" scale="1 1 1"/>
       </geometry>
       <material name="orange"/>
     </visual>
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="/home/blake/legged_gym/resources/robots//b1_description/meshes/calfb.dae" scale="1 1 1"/>
+        <mesh filename="resources/robots/b1_description/meshes/calfb.dae" scale="1 1 1"/>
       </geometry>
     </collision>
     <inertial>
