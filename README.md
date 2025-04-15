@@ -1,6 +1,6 @@
 # b1_gym: Reinforcement Learning for Legged Robots with Isaac Gym
 
-`b1_gym` is a reinforcement learning framework adapted from [legged_gym](https://github.com/leggedrobotics/legged_gym), designed for bipedal locomotion and extended with custom environments, curriculum strategies, and logging tools. It integrates NVIDIA Isaac Gym and RSL-RL.
+`b1_gym` is a reinforcement learning framework adapted from [legged_gym](https://github.com/leggedrobotics/legged_gym), designed for quadruped robot and extended with custom environments, curriculum strategies, and logging tools. It integrates NVIDIA Isaac Gym and rsl-rl.
 
 ## Environment Requirements
 
@@ -98,28 +98,43 @@ python 1080_balls_of_solitude.py
 
 This test should open a viewer with bouncing balls. If it crashes, check your GPU and driver setup.
 
-#### 4. Troubleshooting
-
-- Refer to: `isaacgym/docs/index.html`
-- Or check the NVIDIA developer forums for platform-specific issues
 
 
 
 
-##  Training Example
+
+
+## Train:
 
 ```bash
 python legged_gym/scripts/train.py --task=b1
 ```
 
+To run on CPU add following arguments: `--sim_device=cpu`, `--rl_device=cpu` (sim on CPU and rl on GPU is possible).  
+To run headless (no rendering) add `--headless`.  
+**Important**: To improve performance, once the training starts press `v` to stop the rendering. You can then enable it later to check the progress.  
 
 
+The following command line arguments override the values set in the config files:
 
-##  Evaluation
+- `--task TASK`: Task name.  
+- `--resume`: Resume training from a checkpoint  
+- `--experiment_name EXPERIMENT_NAME`: Name of the experiment to run or load.  
+- `--run_name RUN_NAME`: Name of the run.  
+- `--load_run LOAD_RUN`: Name of the run to load when resume=True. If -1: will load the last run.  
+- `--checkpoint CHECKPOINT`: Saved model checkpoint number. If -1: will load the last checkpoint.  
+- `--num_envs NUM_ENVS`: Number of environments to create.  
+- `--seed SEED`: Random seed.  
+- `--max_iterations MAX_ITERATIONS`: Maximum number of training iterations.  
+
+## Play a trained policy:
 
 ```bash
 python legged_gym/scripts/play.py --task=b1
 ```
+
+By default, the loaded policy is the last model of the last run of the experiment folder.  
+Other runs/model iteration can be selected by setting `load_run` and `checkpoint` in the train config.
 
 
 
