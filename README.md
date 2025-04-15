@@ -14,7 +14,7 @@
 ## Features
 
 -  Isaac Gym + rsl-rl integration  
--  Biped locomotion in rough terrain  
+-  Quadruped robot locomotion in smooth terrain  
 -  Modular curriculum and reward configuration  
 -  Support for language-conditioned commands  
 
