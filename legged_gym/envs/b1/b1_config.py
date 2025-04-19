@@ -43,7 +43,7 @@ class B1RobotCfg(LeggedRobotCfg):
         # actuator_net_file = "{LEGGED_GYM_ROOT_DIR}/resources/actuator_nets/B1_actuator_network.pt"
 
     class env(LeggedRobotCfg.env):
-        num_envs = 65536
+        num_envs = 32768
         num_observations = 235
         num_privileged_obs = None # if not None a priviledge_obs_buf will be returned by step() (critic obs for assymetric training). None is returned otherwise
         num_actions = 12

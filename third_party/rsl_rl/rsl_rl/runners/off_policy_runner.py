@@ -39,18 +39,25 @@ class OffPolicyRunner:
                        **self.alg_cfg)
 
         # Initialize experience replay buffer
-        buffer_size = self.cfg.get("replay_buffer_size", 100)
+        buffer_size = self.cfg.get("replay_buffer_size", 100000)
         obs_shape = (env.num_obs,)
         action_shape = (env.num_actions,)
         n_envs = env.num_envs
 
+        # self.replay_buffer = ReplayBuffer(
+        #     buffer_size=buffer_size,
+        #     obs_shape=obs_shape,
+        #     action_shape=action_shape,
+        #     device=device,
+        #     n_envs=n_envs,
+        #     )   
+
         self.replay_buffer = ReplayBuffer(
-            buffer_size=buffer_size,
-            obs_shape=obs_shape,
-            action_shape=action_shape,
-            device=device,
-            n_envs=n_envs,
-            )   
+            buffer_size=self.cfg.get("replay_buffer_size", 1_000_000),
+            obs_shape=(env.num_obs,),
+            action_shape=(env.num_actions,),
+            device="cpu"  # 强制存在 CPU
+)
 
 
         # TensorBoard Logging
@@ -98,7 +105,13 @@ class OffPolicyRunner:
                 with torch.no_grad():
                     actions = self.actor.sample(obs)[0]  # Sample action from actor
                     next_obs, _, rewards, dones, infos = self.env.step(actions)
-                    next_obs = torch.tensor(next_obs, device=self.device, dtype=torch.float32)
+                    # next_obs = torch.tensor(next_obs, device=self.device, dtype=torch.float32)
+
+                    if isinstance(next_obs, torch.Tensor):
+                        next_obs = next_obs.clone().detach().to(self.device).to(torch.float32)
+                    else:
+                        next_obs = torch.tensor(next_obs, dtype=torch.float32, device=self.device)
+
 
                     # Store in replay buffer
                     self.replay_buffer.add_transition(obs, actions, rewards, next_obs, dones)
@@ -111,12 +124,30 @@ class OffPolicyRunner:
             # Perform SAC updates
             if "batch_size" not in self.cfg:
                 self.cfg["batch_size"] = 256
-            if len(self.replay_buffer) > self.cfg["batch_size"]:
-                # Sample a batch from replay buffer
-                # batch = self.replay_buffer.sample(self.cfg["batch_size"])
+            # if len(self.replay_buffer) > self.cfg["batch_size"]:
+            #     # Sample a batch from replay buffer
+            #     # batch = self.replay_buffer.sample(self.cfg["batch_size"])
 
-                # Update SAC agent (actor, critic networks, target critic)
-                self.alg.update(self.cfg["batch_size"])
+            #     # Update SAC agent (actor, critic networks, target critic)
+            #     self.alg.update(self.cfg["batch_size"])
+
+
+            # if len(self.replay_buffer) > self.cfg["batch_size"]:
+            #     batch = self.replay_buffer.sample(self.cfg["batch_size"])
+            #     batch = [b.to(self.device) for b in batch]
+            #     self.alg.update(self.cfg["batch_size"], *batch)  # 假设 update 接收 obs, act, rew, next_obs, done
+
+
+            # 检查 replay buffer 是否准备好（够 batch_size）
+            if not self.replay_buffer.is_ready(self.cfg["batch_size"]):
+                print(f"[Warmup] Replay buffer size = {len(self.replay_buffer)}, waiting for {self.cfg['batch_size']} before training...")
+            else:
+            # 正常训练
+                batch = self.replay_buffer.sample(self.cfg["batch_size"])
+                batch = [b.to(self.device) for b in batch]
+                self.alg.update(self.cfg["batch_size"], *batch)
+
+
 
             # Log step
             if self.log_dir is not None:

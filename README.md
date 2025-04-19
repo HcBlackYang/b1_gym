@@ -53,14 +53,7 @@ conda env create -f environment.yml
 conda activate b1_gym_env
 ```
 
-### 3. Install local packages (editable mode)
-
-```bash
-pip install -e .
-pip install -e ./third_party/rsl_rl
-```
-
-### 4. Install pytorch (with CUDA 11.8 support)
+### 3. Install pytorch (with CUDA 11.8 support)
 
 To install PyTorch 2.4.1 and compatible versions of torchvision and torchaudio with CUDA 11.8, run:
 
@@ -68,8 +61,7 @@ To install PyTorch 2.4.1 and compatible versions of torchvision and torchaudio w
 pip install torch==2.4.1+cu118 torchvision==0.19.1+cu118 torchaudio==2.4.1+cu118 --index-url https://download.pytorch.org/whl/cu118
 ```
 
-
-### 5 Install Isaac Gym
+### 4 Install Isaac Gym
 
 Isaac Gym is **not included in this repository**. You must manually download and install it from NVIDIA:
 
@@ -97,6 +89,17 @@ python 1080_balls_of_solitude.py
 ```
 
 This test should open a viewer with bouncing balls. If it crashes, check your GPU and driver setup.
+
+
+### 5. Install local packages (editable mode)
+
+```bash
+pip install -e .
+pip install -e ./third_party/rsl_rl
+```
+
+
+
 
 
 

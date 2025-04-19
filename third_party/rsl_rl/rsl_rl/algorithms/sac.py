@@ -19,7 +19,7 @@ class SAC:
         self.critic = SAC_Critic(obs_dim, action_dim, hidden_dims=[256, 256], activation="relu").to(device)
 
         # Create the replay buffer
-        self.replay_buffer = ReplayBuffer(buffer_size=100, obs_shape=(obs_dim,), action_shape=(action_dim,), device=device, n_envs=n_envs)
+        self.replay_buffer = ReplayBuffer(buffer_size=100000, obs_shape=(obs_dim,), action_shape=(action_dim,), device='cpu')
 
         self.gamma = gamma
         self.tau = tau
@@ -63,7 +63,8 @@ class SAC:
 
         return self.alpha
 
-    def update(self, batch_size):
+    # def update(self, batch_size):
+    def update(self, batch_size, obs, actions, rewards, next_obs, dones):
         """
         Perform a single update step on both the actor and critic networks
         """

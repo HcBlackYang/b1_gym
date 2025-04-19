@@ -3,30 +3,64 @@ import torch.nn as nn
 import torch.nn.functional as F
 from torch.distributions import Normal
 
+# class SAC_Actor(nn.Module):
+#     def __init__(self, obs_dim, action_dim, net_arch=[256, 256], activation="relu", log_std_init=-3, clip_mean=2.0, **kwargs):
+#         if kwargs:
+#             print("SAC_Actor.__init__ got unexpected arguments, which will be ignored: " + str([key for key in kwargs.keys()]))
+#         super(SAC_Actor, self).__init__()
+#         self.action_dim = action_dim
+#         self.clip_mean = clip_mean
+
+#         # 构建 MLP 网络
+#         layers = []
+#         input_dim = obs_dim
+#         for hidden_dim in net_arch:
+#             layers.append(nn.Linear(input_dim, hidden_dim))
+#             activation_fn = get_activation(activation)
+#             layers.append(activation_fn)
+#             input_dim = hidden_dim
+#         self.net = nn.Sequential(*layers)
+
+#         # 均值和对数标准差层
+#         self.mean_layer = nn.Linear(net_arch[-1], action_dim)
+#         self.log_std_layer = nn.Linear(net_arch[-1], action_dim)
+
+#         # 初始化权重
+#         self._init_weights(log_std_init)
+
 class SAC_Actor(nn.Module):
-    def __init__(self, obs_dim, action_dim, net_arch=[256, 256], activation="relu", log_std_init=-3, clip_mean=2.0, **kwargs):
+    def __init__(
+        self, obs_dim, action_dim,
+        actor_hidden_dims=None,
+        activation="relu",
+        log_std_init=-3,
+        clip_mean=2.0,
+        **kwargs
+    ):
         if kwargs:
             print("SAC_Actor.__init__ got unexpected arguments, which will be ignored: " + str([key for key in kwargs.keys()]))
         super(SAC_Actor, self).__init__()
         self.action_dim = action_dim
         self.clip_mean = clip_mean
 
-        # 构建 MLP 网络
+        # 网络结构来自 actor_hidden_dims，如果为空则默认值
+        if actor_hidden_dims is None:
+            actor_hidden_dims = [256, 256]
+
         layers = []
         input_dim = obs_dim
-        for hidden_dim in net_arch:
+        for hidden_dim in actor_hidden_dims:
             layers.append(nn.Linear(input_dim, hidden_dim))
             activation_fn = get_activation(activation)
             layers.append(activation_fn)
             input_dim = hidden_dim
         self.net = nn.Sequential(*layers)
 
-        # 均值和对数标准差层
-        self.mean_layer = nn.Linear(net_arch[-1], action_dim)
-        self.log_std_layer = nn.Linear(net_arch[-1], action_dim)
+        self.mean_layer = nn.Linear(actor_hidden_dims[-1], action_dim)
+        self.log_std_layer = nn.Linear(actor_hidden_dims[-1], action_dim)
 
-        # 初始化权重
         self._init_weights(log_std_init)
+
 
     def _init_weights(self, log_std_init):
         for layer in self.net:

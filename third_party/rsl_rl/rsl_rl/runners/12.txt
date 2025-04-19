@@ -1,0 +1,82 @@
+    def learn(self, num_learning_iterations, init_at_random_ep_len=False):
+        # Initialize TensorBoard writer
+        if self.log_dir is not None and self.writer is None:
+            self.writer = SummaryWriter(log_dir=self.log_dir, flush_secs=10)
+
+        # Optionally initialize episode length buffer
+        if init_at_random_ep_len:
+            self.env.episode_length_buf = torch.randint_like(self.env.episode_length_buf, high=int(self.env.max_episode_length))
+
+        # Initialize variables
+        obs = self.env.get_observations().to(self.device)
+        actions = torch.zeros(self.env.num_envs, self.env.num_actions, device=self.device)
+        rewards = torch.zeros(self.env.num_envs, dtype=torch.float, device=self.device)
+        dones = torch.zeros(self.env.num_envs, dtype=torch.float, device=self.device)
+        infos = []
+
+        self.actor.train()
+        self.critic1.train()
+        self.critic2.train()
+
+        ep_infos = []
+        rewbuffer = deque(maxlen=100)
+        lenbuffer = deque(maxlen=100)
+        cur_reward_sum = torch.zeros(self.env.num_envs, dtype=torch.float, device=self.device)
+        cur_episode_length = torch.zeros(self.env.num_envs, dtype=torch.float, device=self.device)
+
+        tot_iter = self.current_learning_iteration + num_learning_iterations
+        for it in range(self.current_learning_iteration, tot_iter):
+            start = time.time()
+
+            # Rollout: Interact with environment and store in replay buffer
+            for _ in range(self.cfg["num_steps_per_env"]):
+                with torch.no_grad():
+                    actions = self.actor.sample(obs)[0]  # Sample action from actor
+                    next_obs, _, rewards, dones, infos = self.env.step(actions)
+                    # next_obs = torch.tensor(next_obs, device=self.device, dtype=torch.float32)
+
+                    if isinstance(next_obs, torch.Tensor):
+                        next_obs = next_obs.clone().detach().to(self.device).to(torch.float32)
+                    else:
+                        next_obs = torch.tensor(next_obs, dtype=torch.float32, device=self.device)
+
+
+                    # Store in replay buffer
+                    self.replay_buffer.add_transition(obs, actions, rewards, next_obs, dones)
+
+                    # Update current observations
+                    obs = next_obs
+
+            collection_time = time.time() - start
+
+            # Perform SAC updates
+            if "batch_size" not in self.cfg:
+                self.cfg["batch_size"] = 256
+            # if len(self.replay_buffer) > self.cfg["batch_size"]:
+            #     # Sample a batch from replay buffer
+            #     # batch = self.replay_buffer.sample(self.cfg["batch_size"])
+
+            #     # Update SAC agent (actor, critic networks, target critic)
+            #     self.alg.update(self.cfg["batch_size"])
+
+
+            if len(self.replay_buffer) > self.cfg["batch_size"]:
+                batch = self.replay_buffer.sample(self.cfg["batch_size"])
+                batch = [b.to(self.device) for b in batch]
+                self.alg.update(self.cfg["batch_size"], *batch)  # 假设 update 接收 obs, act, rew, next_obs, done
+
+
+
+
+            # Log step
+            if self.log_dir is not None:
+                self.log(locals(), collection_time)
+
+            # Save model at interval
+            if it % self.cfg["save_interval"] == 0:
+                self.save(os.path.join(self.log_dir, f'model_{it}.pt'))
+
+            ep_infos.clear()
+
+        self.current_learning_iteration += num_learning_iterations
+        self.save(os.path.join(self.log_dir, f'model_{self.current_learning_iteration}.pt'))
