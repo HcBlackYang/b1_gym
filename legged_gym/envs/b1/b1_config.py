@@ -22,7 +22,7 @@ class B1RobotCfg(LeggedRobotCfg):
         }
 
     class commands(LeggedRobotCfg.commands):
-        curriculum = False
+        curriculum = True
         max_curriculum = 1.
         num_commands = 4 # default: lin_vel_x, lin_vel_y, ang_vel_yaw, heading (in heading mode ang_vel_yaw is recomputed from heading error)
         resampling_time = 10. # time before command are changed[s]
@@ -43,7 +43,7 @@ class B1RobotCfg(LeggedRobotCfg):
         # actuator_net_file = "{LEGGED_GYM_ROOT_DIR}/resources/actuator_nets/B1_actuator_network.pt"
 
     class env(LeggedRobotCfg.env):
-        num_envs = 32768
+        num_envs = 4096
         num_observations = 235
         num_privileged_obs = None # if not None a priviledge_obs_buf will be returned by step() (critic obs for assymetric training). None is returned otherwise
         num_actions = 12

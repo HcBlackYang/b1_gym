@@ -42,7 +42,7 @@ class LeggedRobotCfg(BaseConfig):
 
     class terrain:
         # mesh_type = 'trimesh' # "heightfield" # none, plane, heightfield or trimesh
-        mesh_type = 'plane'  # "heightfield" # none, plane, heightfield or trimesh
+        mesh_type = 'trimesh'  # "heightfield" # none, plane, heightfield or trimesh
         horizontal_scale = 0.1 # [m]
         vertical_scale = 0.005 # [m]
         border_size = 25 # [m]
@@ -232,7 +232,7 @@ class LeggedRobotCfgPPO(BaseConfig):
         policy_class_name = 'ActorCritic'
         algorithm_class_name = 'PPO'
         num_steps_per_env = 24 # per iteration
-        max_iterations = 150 # number of policy updates
+        max_iterations = 1500 # number of policy updates
 
         # logging
         save_interval = 50 # check for potential saves every this many iterations
