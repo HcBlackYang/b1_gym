@@ -2,6 +2,12 @@
 
 `b1_gym` is a reinforcement learning framework adapted from [legged_gym](https://github.com/leggedrobotics/legged_gym), designed for quadruped robot and extended with custom environments, curriculum strategies, and logging tools. It integrates NVIDIA Isaac Gym and rsl-rl.
 
+<p align="center">
+  <img src="b1_t.gif" alt="Demo" />
+</p>
+
+
+
 ## Environment Requirements
 
 - **Operating System**: Ubuntu 20.04
