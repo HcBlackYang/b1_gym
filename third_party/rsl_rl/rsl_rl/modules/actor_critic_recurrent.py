@@ -1,44 +1,41 @@
-# SPDX-FileCopyrightText: Copyright (c) 2021 NVIDIA CORPORATION & AFFILIATES. All rights reserved.
-# SPDX-License-Identifier: BSD-3-Clause
-# 
-# Redistribution and use in source and binary forms, with or without
-# modification, are permitted provided that the following conditions are met:
-#
-# 1. Redistributions of source code must retain the above copyright notice, this
-# list of conditions and the following disclaimer.
-#
-# 2. Redistributions in binary form must reproduce the above copyright notice,
-# this list of conditions and the following disclaimer in the documentation
-# and/or other materials provided with the distribution.
-#
-# 3. Neither the name of the copyright holder nor the names of its
-# contributors may be used to endorse or promote products derived from
-# this software without specific prior written permission.
-#
-# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-# AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-# IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-# DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
-# FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-# DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
-# SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
-# CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
-# OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-# OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-#
-# Copyright (c) 2021 ETH Zurich, Nikita Rudin
+# # SPDX-FileCopyrightText: Copyright (c) 2021 NVIDIA CORPORATION & AFFILIATES. All rights reserved.
+# # SPDX-License-Identifier: BSD-3-Clause
+# # 
+# # Redistribution and use in source and binary forms, with or without
+# # modification, are permitted provided that the following conditions are met:
+# #
+# # 1. Redistributions of source code must retain the above copyright notice, this
+# # list of conditions and the following disclaimer.
+# #
+# # 2. Redistributions in binary form must reproduce the above copyright notice,
+# # this list of conditions and the following disclaimer in the documentation
+# # and/or other materials provided with the distribution.
+# #
+# # 3. Neither the name of the copyright holder nor the names of its
+# # contributors may be used to endorse or promote products derived from
+# # this software without specific prior written permission.
+# #
+# # THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+# # AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+# # IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+# # DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+# # FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+# # DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+# # SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+# # CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+# # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+# # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+# #
+# # Copyright (c) 2021 ETH Zurich, Nikita Rudin
+
 
 import numpy as np
+
 import torch
 import torch.nn as nn
 from torch.distributions import Normal
 from torch.nn.modules import rnn
-import sys
-import os
-
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..")))
-
-from rsl_rl.modules.actor_critic import ActorCritic, get_activation
+from .actor_critic import ActorCritic, get_activation
 from rsl_rl.utils import unpad_trajectories
 
 class ActorCriticRecurrent(ActorCritic):
@@ -96,45 +93,56 @@ class ActorCriticRecurrent(ActorCritic):
 class Memory(torch.nn.Module):
     def __init__(self, input_size, type='lstm', num_layers=1, hidden_size=256):
         super().__init__()
+        # RNN
         rnn_cls = nn.GRU if type.lower() == 'gru' else nn.LSTM
-        self.rnn = rnn_cls(input_size=input_size, hidden_size=hidden_size, num_layers=num_layers, batch_first=False)
+        self.rnn = rnn_cls(input_size=input_size, hidden_size=hidden_size, num_layers=num_layers)
         self.hidden_size = hidden_size
         self.num_layers = num_layers
         self.rnn_type = type.lower()
-        self.hidden_states = None  # (h, c) for LSTM or h for GRU
 
+        self.hidden_states = None
+
+        self.device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
+    
+    def init_hidden_states(self, batch_size=1):
+
+        if self.rnn_type == 'gru':
+            return torch.zeros(self.num_layers, batch_size, self.hidden_size).to(self.device)
+        else:  # lstm
+            h0 = torch.zeros(self.num_layers, batch_size, self.hidden_size).to(self.device)
+            c0 = torch.zeros(self.num_layers, batch_size, self.hidden_size).to(self.device)
+            return (h0, c0)
+    
     def forward(self, input, masks=None, hidden_states=None):
         batch_mode = masks is not None
+        
+
+        if hidden_states is not None:
+            self.hidden_states = hidden_states
+        elif self.hidden_states is None:
+
+            batch_size = input.size(1) if batch_mode else 1
+            self.hidden_states = self.init_hidden_states(batch_size)
+        
         if batch_mode:
-            if hidden_states is None:
-                raise ValueError("Hidden states must be provided during policy update (batch mode).")
-            out, _ = self.rnn(input, hidden_states)
+
+            out, _ = self.rnn(input, self.hidden_states)
             out = unpad_trajectories(out, masks)
         else:
-            if self.hidden_states is None:
-                self._init_hidden_states(batch_size=input.shape[0])
+            # inference mode (collection): use hidden states of last step
             out, self.hidden_states = self.rnn(input.unsqueeze(0), self.hidden_states)
         return out
-
+    
     def reset(self, dones=None):
-        # Reset the hidden state of RNN
+
         if self.hidden_states is None:
             return
-        
-        if self.rnn_type == 'lstm':
-            h, c = self.hidden_states
-            h[..., dones, :] = 0.0
-            c[..., dones, :] = 0.0
-            self.hidden_states = (h, c)
-        else:
-            self.hidden_states[..., dones, :] = 0.0
+            
 
-    def _init_hidden_states(self, batch_size=1):
-        # Initialize hidden states
-        device = next(self.parameters()).device
-        if self.rnn_type == 'lstm':
-            h = torch.zeros(self.num_layers, batch_size, self.hidden_size, device=device)
-            c = torch.zeros(self.num_layers, batch_size, self.hidden_size, device=device)
-            self.hidden_states = (h, c)
-        else:
-            self.hidden_states = torch.zeros(self.num_layers, batch_size, self.hidden_size, device=device)
+        if isinstance(self.hidden_states, tuple):  
+            for hidden_state in self.hidden_states:
+                if dones is not None:
+                    hidden_state[..., dones, :] = 0.0
+        else:  
+            if dones is not None:
+                self.hidden_states[..., dones, :] = 0.0

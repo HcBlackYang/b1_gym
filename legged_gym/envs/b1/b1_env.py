@@ -45,7 +45,7 @@ class B1Env(LeggedRobot):
         self.sea_cell_state_per_env = self.sea_cell_state.view(2, self.num_envs, self.num_actions, 8)
 
     def _compute_torques(self, actions):
-        # print(f"Actions: {actions}")  # 打印输入动作
+        # print(f"Actions: {actions}")  
         if self.cfg.control.use_actuator_network:
             with torch.inference_mode():
                 self.sea_input[:, 0, 0] = (
@@ -55,11 +55,11 @@ class B1Env(LeggedRobot):
                 torques, (self.sea_hidden_state[:], self.sea_cell_state[:]) = self.actuator_network(
                     self.sea_input, (self.sea_hidden_state, self.sea_cell_state)
                 )
-            # print(f"Torques from actuator network: {torques}")  # 打印网络计算出的力矩
+            # print(f"Torques from actuator network: {torques}")  
             return torques
         else:
             torques = super()._compute_torques(actions)
-            # print(f"Torques from PD Controller: {torques}")  # 打印 PD 控制的力矩
+            # print(f"Torques from PD Controller: {torques}")  
             return torques
 
     def _reward_feet_air_time(self):
@@ -70,31 +70,21 @@ class B1Env(LeggedRobot):
         self.feet_air_time += self.dt
 
 
-        # 计算基础奖励：空中时间超过0.2秒开始给奖励
+
         base_reward = torch.sum((self.feet_air_time - 0.2) * first_contact, dim=1)
 
-        # 对超过0.8秒的空中时间添加惩罚
         penalty = torch.sum(torch.where(self.feet_air_time > 0.8,
                                         (0.8 - self.feet_air_time) * first_contact,
                                         torch.zeros_like(self.feet_air_time)),
                             dim=1)
 
 
-        # 合并奖励和惩罚
         rew_airTime = base_reward + penalty
 
-
-        # 只有当有移动命令时才给予奖励
         rew_airTime *= torch.norm(self.commands[:, :2], dim=1) > 0.1
 
-        # 重置已接触地面的足部空中时间
         self.feet_air_time *= ~contact_filt
 
-        # print("rew_airtime:",rew_airTime)
-        # print("feet_air_time:",self.feet_air_time)
-        # print("base_reward:",base_reward)
-        # print("penalty:",penalty)
-        # print("balance_reward:",balance_reward)
 
         return rew_airTime
 

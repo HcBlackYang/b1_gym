@@ -3,7 +3,7 @@ from legged_gym.envs.base.legged_robot_config import LeggedRobotCfg, LeggedRobot
 
 class B1RobotCfg(LeggedRobotCfg):
     class init_state(LeggedRobotCfg.init_state):
-        pos = [0.0, 0.0, 0.5]  # 降低初始高度，减少摔倒
+        pos = [0.0, 0.0, 0.5]  
         default_joint_angles = {
             'FL_hip_joint': 0.2,  # [rad]
             'RL_hip_joint': 0.2,  # [rad]
@@ -34,12 +34,12 @@ class B1RobotCfg(LeggedRobotCfg):
             heading = [-3.14, 3.14]
 
     class control(LeggedRobotCfg.control):
-        control_type = 'P'  # 使用 P 控制
-        stiffness = {'joint': 100.}  # 增加刚度，减少腿部震荡
-        damping = {'joint': 2.5}  # 增加阻尼，减少摔倒后的乱踢
-        action_scale = 0.25  # #数值减小，小步行走，数值变大，大步行走
-        decimation = 4  # 降低时间步长，提高控制频率
-        use_actuator_network = False  # 适用于 B1
+        control_type = 'P'  
+        stiffness = {'joint': 100.}  
+        damping = {'joint': 2.5}  
+        action_scale = 0.25  
+        decimation = 4  
+        use_actuator_network = False  
         # actuator_net_file = "{LEGGED_GYM_ROOT_DIR}/resources/actuator_nets/B1_actuator_network.pt"
 
     class env(LeggedRobotCfg.env):
@@ -54,7 +54,7 @@ class B1RobotCfg(LeggedRobotCfg):
     class asset(LeggedRobotCfg.asset):
         file = "{LEGGED_GYM_ROOT_DIR}/resources/robots/b1_description/xacro/b1.urdf"
         name = "b1"
-        foot_name = ["FR_calf", "FL_calf", "RR_calf", "RL_calf"]  # 用 calf 代替 foot
+        foot_name = ["FR_calf", "FL_calf", "RR_calf", "RL_calf"]  
         # foot_name = "foot"
         penalize_contacts_on = ["thigh", "calf"]
         # terminate_after_contacts_on = ["base", "imu_link"]
@@ -65,7 +65,7 @@ class B1RobotCfg(LeggedRobotCfg):
         contact_sensors = ["FR_foot_contact", "FL_foot_contact", "RR_foot_contact", "RL_foot_contact"]
 
     class rewards(LeggedRobotCfg.rewards):
-        base_height_target = 0.5  # 适当降低目标高度，减少摔倒风险
+        base_height_target = 0.5  
         max_contact_force = 500.
         only_positive_rewards = True
 
@@ -73,15 +73,15 @@ class B1RobotCfg(LeggedRobotCfg):
             tracking_lin_vel = 6.0
             tracking_ang_vel = 3
             torques = -0.0001/8
-            action_rate = -0.01 #数值减小，灵活行走，数值变大，平稳行走
+            action_rate = -0.01 
             # dof_pos_limits = -0.3
-            dof_pos_limits = -10 #数值变大限制关节自由
-            collision = -1.2  # 减少碰撞惩罚，鼓励机器人尝试站起
+            dof_pos_limits = -10 
+            collision = -1.2  
             lin_vel_z = -3
-            feet_air_time = 1  # 适当增加奖励，鼓励合理交替步态
-            dof_acc = -5e-7  # 增强关节加速度约束，防止异常腿部运动
-            orientation = -5 # 姿态稳定性惩罚
-            base_height = -30.  # 底座高度惩罚
+            feet_air_time = 1  
+            dof_acc = -5e-7  
+            orientation = -5 
+            base_height = -30.  
 
         soft_dof_pos_limit = 0.9
 
@@ -89,11 +89,26 @@ class B1RobotCfgPPO(LeggedRobotCfgPPO):
     class algorithm(LeggedRobotCfgPPO.algorithm):
         entropy_coef = 0.015  # 增加探索，避免局部最优
 
+
+    # class policy:
+    #     init_noise_std = 0.8
+    #     actor_hidden_dims = [32]
+    #     critic_hidden_dims = [32]
+    #     activation = 'elu' # can be elu, relu, selu, crelu, lrelu, tanh, sigmoid
+    #     # only for 'ActorCriticRecurrent':
+    #     rnn_type = 'lstm'
+    #     rnn_hidden_size = 64
+    #     rnn_num_layers = 1
+
+    # class runner(LeggedRobotCfgPPO.runner):
+    #     policy_class_name = "ActorCriticRecurrent"
+    #     experiment_name = 'b1'
+    #     load_run = -1
+
     class runner(LeggedRobotCfgPPO.runner):
         run_name = ''
         experiment_name = 'b1'
         load_run = -1
-
 
 
 

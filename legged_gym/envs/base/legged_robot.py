@@ -84,7 +84,7 @@ class LeggedRobot(BaseTask):
         """
         clip_actions = self.cfg.normalization.clip_actions
         self.actions = torch.clip(actions, -clip_actions, clip_actions).to(self.device)
-        # clip_actions = 0.5  # 限制 action 在 [-0.5, 0.5]
+        # clip_actions = 0.5  
         self.actions = torch.clip(actions, -clip_actions, clip_actions).to(self.device)
 
         # step physics and render each frame

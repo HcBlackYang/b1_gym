@@ -137,31 +137,31 @@ if __name__ == '__main__':
 
 
 # class SAC_Actor_JIT(nn.Module):
-#     """专门用于JIT导出的SAC Actor包装器"""
+
 #     def __init__(self, sac_actor):
 #         super().__init__()
-#         # 只复制必要的部分
+
 #         self.net = copy.deepcopy(sac_actor.net)
 #         self.mean_layer = copy.deepcopy(sac_actor.mean_layer)
     
 #     def forward(self, observations):
-#         """JIT兼容的前向传播，只返回确定性动作"""
+
 #         x = self.net(observations)
 #         mean = self.mean_layer(x)
 #         return torch.tanh(mean)
 
 
 # def export_sac_policy_as_jit(sac_actor, path):
-#     """导出SAC策略为JIT脚本"""
+
 #     if not os.path.exists(path):
 #         os.makedirs(path)
     
-#     # 创建JIT兼容的actor包装器
+
 #     jit_actor = SAC_Actor_JIT(sac_actor)
 #     jit_actor.to('cpu')
 #     jit_actor.eval()
     
-#     # 使用torch.jit.script导出
+
 #     try:
 #         traced_script_module = torch.jit.script(jit_actor)
 #         save_path = os.path.join(path, 'policy_1.pt')
@@ -169,9 +169,9 @@ if __name__ == '__main__':
 #         print(f'Exported SAC policy to: {save_path}')
 #     except Exception as e:
 #         print(f"Failed to export policy: {str(e)}")
-#         # 如果script失败，尝试trace
+
 #         try:
-#             example_input = torch.zeros(1, sac_actor.net[0].weight.shape[1])  # 假设第一层是Linear
+#             example_input = torch.zeros(1, sac_actor.net[0].weight.shape[1])  
 #             traced_module = torch.jit.trace(jit_actor, example_input)
 #             save_path = os.path.join(path, 'policy_1.pt')
 #             traced_module.save(save_path)

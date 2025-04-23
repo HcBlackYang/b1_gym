@@ -130,21 +130,21 @@ class LeggedRobotCfg(BaseConfig):
 
     class rewards:
         class scales:
-            termination = -0.0 #终止状态惩罚
+            termination = -0.0 
             tracking_lin_vel = 1.0
             tracking_ang_vel = 0.5
             lin_vel_z = -2.0
-            ang_vel_xy = -0.05 #xy平面角速度惩罚
-            orientation = -0. #姿态稳定性惩罚
+            ang_vel_xy = -0.05 
+            orientation = -0. 
             torques = -0.00001
-            dof_vel = -0. #关节速度惩罚
+            dof_vel = -0. 
             dof_acc = -2.5e-7
-            base_height = -0. #底座高度惩罚
+            base_height = -0. 
             feet_air_time = 1.0
             collision = -1.
-            feet_stumble = -0.0 #脚步绊倒惩罚
+            feet_stumble = -0.0 
             action_rate = -0.01
-            stand_still = -0. #静止惩罚
+            stand_still = -0. 
 
         only_positive_rewards = True  # if true negative total rewards are clipped at zero (avoids early termination problems)
         tracking_sigma = 0.25  # tracking reward = exp(-error^2/sigma)
